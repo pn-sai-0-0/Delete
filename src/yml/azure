@@ -1,0 +1,22 @@
+trigger:
+- main
+
+pool:
+  name: A1
+
+steps:
+
+- task: Maven@4
+  displayName: 'Run Tests (Regression)'
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 'clean test'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    jdkVersionOption: '1.21'
+
+- task: Maven@4
+  displayName: 'Build JAR'
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 'package -DskipTests'
